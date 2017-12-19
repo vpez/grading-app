@@ -47,7 +47,6 @@
             <artifactId>mail</artifactId>
             <version>${javax.version}</version>
         </dependency>
-
     </dependencies>
 
 </project>
