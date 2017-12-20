@@ -1,4 +1,8 @@
-package org.vap.grading
+package org.vap.grading.model
+
+import org.vap.grading.util.GradeUtils
+import org.vap.grading.email.CommandLineAuthenticator
+import org.vap.grading.email.GradeMailSender
 
 import java.util.function.Consumer
 import java.util.function.DoubleConsumer
@@ -44,7 +48,7 @@ class StudentGroup {
         return this
     }
 
-    public StudentGroup loadGradesBatch(SpreadSheet spreadSheet) {
+    public StudentGroup loadGradesBatch(Spreadsheet spreadSheet) {
         GradeUtils.readGradesFile(students, spreadSheet.mapping, spreadSheet.path, spreadSheet.delimiter)
         return this
     }
@@ -151,6 +155,20 @@ class StudentGroup {
         students.values().each calculate
         return this
     }
+
+    /**
+     * Exports data to spreadsheet
+     * @param fields of students
+     * @param grades for each student
+     * @param targetFile where to store, shoudl have .tsv or .csv extension
+     * @return
+     */
+    public StudentGroup export(List<String> fields, List<String> grades, String targetFile) {
+        GradeUtils.save(students.values(), fields, grades, targetFile)
+        return this
+    }
+
+    // TODO add export() with filter and sort
 
     private boolean isGradeKeySet() {
         return gradeKey != null

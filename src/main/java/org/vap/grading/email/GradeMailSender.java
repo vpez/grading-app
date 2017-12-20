@@ -1,4 +1,4 @@
-package org.vap.grading;
+package org.vap.grading.email;
 
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;

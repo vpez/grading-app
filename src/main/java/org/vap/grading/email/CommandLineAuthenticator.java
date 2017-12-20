@@ -1,4 +1,4 @@
-package org.vap.grading;
+package org.vap.grading.email;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
@@ -11,7 +11,8 @@ import java.util.Scanner;
 
 public class CommandLineAuthenticator extends Authenticator {
 
-    private String email, password;
+    private String email;
+    private String password;
 
     public CommandLineAuthenticator() {
         email = "";                                   // TODO email address
@@ -20,6 +21,6 @@ public class CommandLineAuthenticator extends Authenticator {
     }
 
     public PasswordAuthentication getPasswordAuthentication() {
-        return new javax.mail.PasswordAuthentication(email, password);
+        return new PasswordAuthentication(email, password);
     }
 }

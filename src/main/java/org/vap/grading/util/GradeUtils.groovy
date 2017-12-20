@@ -1,4 +1,9 @@
-package org.vap.grading
+package org.vap.grading.util
+
+import org.vap.grading.email.CommandLineAuthenticator
+import org.vap.grading.email.GradeMailSender
+import org.vap.grading.model.Spreadsheet
+import org.vap.grading.model.Student
 
 /**
  * @author Vahe Pezeshkian
@@ -6,6 +11,7 @@ package org.vap.grading
  */
 class GradeUtils {
 
+    // TODO use Spreadsheet and use dynamic column mapping
     static Map<String, Student> readStudentInfo(String infoFilePath) {
         Map<String, Student> students = [:]
 
@@ -13,10 +19,10 @@ class GradeUtils {
             reader ->
                 String line
                 while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(",")
+                    String[] parts = line.split("\t")
                     String[] name = parts[0].split(" ")
 
-                    Student student = new Student(ID: parts[1], firstName: name[0], lastName: name[1], email: parts[2].toLowerCase())
+                    Student student = new Student(ID: parts[2], firstName: name[0], lastName: name[1], email: parts[1].toLowerCase())
                     students[student.ID] = student
                 }
                 reader.close()
@@ -121,7 +127,7 @@ class GradeUtils {
 
     static void save(Collection<Student> students, List<String> fields, List<String> grades, String target) {
 
-        def delimiter = "\t"
+        def delimiter = Spreadsheet.FileType.getFileType(target.substring(target.indexOf('.'))).delimiter
         def getGrade = {Double value -> value == null ? "0.0" : value.toString()}
 
         PrintWriter writer = new File(target).newPrintWriter()

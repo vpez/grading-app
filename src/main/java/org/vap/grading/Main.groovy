@@ -1,5 +1,10 @@
 package org.vap.grading
 
+import org.vap.grading.model.Scale
+import org.vap.grading.model.Spreadsheet
+import org.vap.grading.model.StudentGroup
+import org.vap.grading.util.GradeUtils
+
 /**
  * @author Vahe Pezeshkian
  * December 18, 2017
@@ -35,18 +40,18 @@ Scale scale = new Scale(
                 [50, 55]    // D
         ], gradeMapper)
 
+def directory = '/path/to/directory/'
+def getPath = {String file -> directory + file}
+
 // File info
-def studentInfo = '/Users/vahepezeshkian/IdeaProjects/groovy-play/students/student_info.csv'
-def spreadsheet = new SpreadSheet(
-        '/Users/vahepezeshkian/IdeaProjects/groovy-play/students/Sheet.csv', "\t",
+def spreadsheet = new Spreadsheet(
+        getPath('grades.tsv'),
         ['Final', 'Quiz 1', 'Quiz 2', 'Quiz 3', 'Quiz 4', 'Quiz 5', 'HW 1', 'HW 2', 'Midterm', 'Project', 'Participation'])
 
-def components = gradeMapper.keySet().asList()
-components.remove('Participation')
-components.add('Total')
+def components = gradeMapper.keySet().asList() - ['Participation'] + ['Total']
 
 // Start
-def group = new StudentGroup().init(studentInfo)
+def group = new StudentGroup().init(getPath('students.tsv'))
         .loadGradesBatch(spreadsheet)
         .calculateTotal('Total', scale)
         .setGradeKey('Total')
@@ -56,6 +61,7 @@ def group = new StudentGroup().init(studentInfo)
         .processStudents({
                 println(GradeUtils.buildGradesStatement(it, components))
         })
+        .export(['fullName', 'letterGrade'], gradeMapper.keySet().toList() + ['Total'], getPath('report.tsv'))
 
 // Email
 def subject     = 'Database Systems grades report'
@@ -63,13 +69,4 @@ def info        = 'You can review your scores or approach me if you have any que
 info           += '\nIf you think there are any missing grades, let me know via email.'
 def signature   = GradeUtils.signature('V. Pezeshkian')
 
-def deliveredProject = {Student s -> s.getGrade('Project') != null}
-GradeUtils.emailGrades(group.students.findAll(deliveredProject), components, subject, info, signature)
-
-def reportFields = gradeMapper.keySet().asList()
-reportFields.add(0, 'Total')
-
-GradeUtils.save(group.students,
-        ['ID', 'email', 'fullName', 'letterGrade'],
-        reportFields,
-        '/Users/vahepezeshkian/IdeaProjects/groovy-play/students/final.csv')
+// GradeUtils.emailGrades(group.students, components, subject, info, signature)

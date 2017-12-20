@@ -1,4 +1,4 @@
-package org.vap.grading
+package org.vap.grading.model
 
 /**
  * @author Vahe Pezeshkian

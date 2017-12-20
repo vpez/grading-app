@@ -1,5 +1,8 @@
 package org.vap.grading
 
+import org.vap.grading.email.CommandLineAuthenticator
+import org.vap.grading.email.GradeMailSender
+
 /**
  * @author Vahe Pezeshkian
  * September 19, 2017
