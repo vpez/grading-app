@@ -37,4 +37,5 @@ new StudentGroup().init('/path/to/students.tsv')
         .processStudents({                                  // perform any task on each student (print, email grade etc.)
                 println(GradeUtils.buildGradesStatement(it, ['Total']))
         })
+        .export(['fullName', 'letterGrade'], gradeMapper.keySet().toList() + ['Total'], getPath('/path/to/report.tsv'))
 ```
