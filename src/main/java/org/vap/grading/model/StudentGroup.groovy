@@ -168,7 +168,11 @@ class StudentGroup {
         return this
     }
 
-    // TODO add export() with filter and sort
+    public StudentGroup export(List<String> fields, String sortBy, List<String> grades, String targetFile) {
+        Collection students = students.values().toSorted({s1, s2 -> s1[sortBy] <= s2[sortBy] ? -1 : 1})
+        GradeUtils.save(students, fields, grades, targetFile)
+        return this
+    }
 
     private boolean isGradeKeySet() {
         return gradeKey != null

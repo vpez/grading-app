@@ -11,17 +11,17 @@ import org.vap.grading.util.GradeUtils
  */
 
 def gradeMapper = [
-        'Quiz 1' : {Double value -> value * 0.2},
-        'Quiz 2' : {Double value -> value * 0.2},
-        'Quiz 3' : {Double value -> value * 0.2},
-        'Quiz 4' : {Double value -> value * 0.2},
-        'Quiz 5' : {Double value -> value * 0.2},
-        'HW 1'   : {Double value -> value * 0.025},
-        'HW 2'   : {Double value -> value * 0.025},
-        'Midterm': {Double value -> value * 5 * 0.2},
-        'Final'  : {Double value -> value * 0.35},
-        'Project': {Double value -> value * 0.25},
-        'Participation' :{Double value -> value}
+        'Quiz 1' : {it * 0.2},
+        'Quiz 2' : {it * 0.2},
+        'Quiz 3' : {it * 0.2},
+        'Quiz 4' : {it * 0.2},
+        'Quiz 5' : {it * 0.2},
+        'HW 1'   : {it * 0.025},
+        'HW 2'   : {it * 0.025},
+        'Midterm': {it * 5 * 0.2},
+        'Final'  : {it * 0.35},
+        'Project': {it * 0.25},
+        'Participation' : {it}
 ]
 
 Scale scale = new Scale(
@@ -40,7 +40,7 @@ Scale scale = new Scale(
                 [50, 55]    // D
         ], gradeMapper)
 
-def directory = '/path/to/directory/'
+def directory = '/Users/vahepezeshkian/Desktop/CS-222/'
 def getPath = {String file -> directory + file}
 
 // File info
@@ -58,10 +58,8 @@ def group = new StudentGroup().init(getPath('students.tsv'))
         .withMax({println(it)})
         .withMin({println(it)})
         .withAverage({println(it)})
-        .processStudents({
-                println(GradeUtils.buildGradesStatement(it, components))
-        })
-        .export(['fullName', 'letterGrade'], gradeMapper.keySet().toList() + ['Total'], getPath('report.tsv'))
+        .processStudents({ println(GradeUtils.buildGradesStatement(it, components)) })
+        .export(['fullName', 'letterGrade'], 'lastName', gradeMapper.keySet().toList() + ['Total'], getPath('report.tsv'))
 
 // Email
 def subject     = 'Database Systems grades report'

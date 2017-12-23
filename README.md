@@ -18,9 +18,9 @@ Java (8) and Groovy
 
 // Define components and weight of each component
 def gradeMapper = [
-  'Midterm' : {grade -> grade * 0.25},
-  'Final'   : {grade -> grade * 0.5},
-  'Project' : {grade -> grade * 0.25}
+  'Midterm' : {it * 0.25},
+  'Final'   : {it * 0.5},
+  'Project' : {it * 0.25}
 ]
 
 // Define letter grades and ranges
