@@ -16,3 +16,6 @@ out
 
 # Compiled class file
 *.class
+
+# Reduced dependency pom XML
+dependency-reduced-pom.xml

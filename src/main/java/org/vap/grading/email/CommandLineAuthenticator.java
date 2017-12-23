@@ -15,8 +15,9 @@ public class CommandLineAuthenticator extends Authenticator {
     private String password;
 
     public CommandLineAuthenticator() {
-        email = "";                                   // TODO email address
-        System.out.print("Enter your password: ");
+        System.out.print("Your email: ");
+        email = new Scanner(System.in).nextLine();
+        System.out.print("Your password: ");
         password = new Scanner(System.in).nextLine();
     }
 

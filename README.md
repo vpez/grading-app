@@ -39,3 +39,15 @@ new StudentGroup().init('/path/to/students.tsv')
         })
         .export(['fullName', 'letterGrade'], gradeMapper.keySet().toList() + ['Total'], getPath('/path/to/report.tsv'))
 ```
+
+## Compile and run
+1. `chmod +x build.sh` and `chmod +x run.sh`
+
+2. Set `JAVA_HOME` to your JDK 8
+`JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_131.jdk/Contents/Home`
+
+3. Run build script
+`./build.sh`
+
+4. Run the app
+`./run.sh`
