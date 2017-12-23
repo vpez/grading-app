@@ -54,5 +54,8 @@ new StudentGroup().init('/path/to/students.tsv')
 
 ## Command line usage
 ```
-./cli.sh  -s ~/Desktop/CS-222/students.tsv -g ~/Desktop/CS-222/grades.tsv -a min,max,avg -e ~/Downloads/export2.tsv
+./cli.sh  -s ~/Desktop/CS-222/students.tsv \
+          -g ~/Desktop/CS-222/grades.tsv \
+          -a min,max,avg \
+          -e ~/Downloads/export2.tsv
 ```
