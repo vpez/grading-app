@@ -59,7 +59,7 @@ def group = new StudentGroup().init(getPath('students.tsv'))
         .withMin({println(it)})
         .withAverage({println(it)})
         .processStudents({ println(GradeUtils.buildGradesStatement(it, components)) })
-        .export(['fullName', 'letterGrade'], 'lastName', gradeMapper.keySet().toList() + ['Total'], getPath('report.tsv'))
+        .export(['fullName', 'letterGrade'], 'lastName', ['Total'] + gradeMapper.keySet().toList(), getPath('report.tsv'))
 
 // Email
 def subject     = 'Database Systems grades report'

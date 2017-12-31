@@ -17,11 +17,11 @@ cli.s(args: 1, argName: 'students', 'Input TSV file containing student data', re
 
 def options = cli.parse(args)
 
-println()
-20.times {print '* '}
-println '\n* Welcome to command line grading app *'
-20.times {print '* '}
-2.times {println()}
+def line = {40.times({print '-'}); println()}
+def header = {s -> line(); println(s); line()}
+def underline = {s -> println(s); line()}
+
+header "Welcome to command line grading app"
 
 String studentsFile = options.s
 String gradesFile = options.g
@@ -35,14 +35,15 @@ def group = new StudentGroup()
         .init(studentsFile).loadGradesBatch(spreadsheet)
         .setGradeKey(key)
 
-println "Results for $key"
+underline "Results for $key"
 
 if (options.a) {
     def actions = ['min': ['name': 'Minimum', 'invoke': 'withMin'],
                    'max': ['name': 'Maximum', 'invoke': 'withMax'],
-                   'avg': ['name': 'Average', 'invoke': 'withAverage']]
+                   'avg': ['name': 'Average', 'invoke': 'withAverage'],
+                   'count' : ['name' : 'Count', 'invoke': 'withNumParticipants']]
 
-    def consumer = { name, dValue -> def value = dValue.round(2); println "$key $name\t: $value" }
+    def consumer = { name, value -> println "$key $name\t\t $value" }
 
     actions.keySet().each { // it = min, max, avg etc.
         options.a.contains(it) && group.invokeMethod(actions[it]['invoke'], consumer.curry(actions[it]['name']))
@@ -53,3 +54,5 @@ if (options.e) {
     String exportFile = options.e
     group.export(['ID', 'fullName'], [key], exportFile)
 }
+
+underline ""
